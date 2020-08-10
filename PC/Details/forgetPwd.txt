@@ -1,0 +1,81 @@
+*** Keywords ***
+驗證碼
+    open browser    http://192.168.4.104:8877/Account/Login?ReturnUrl=%2f    chrome
+    input    //input[@maxlength='100']    welly
+    input    //input[@maxlength='50']    Pppppppp8
+    click    //*[span='Member']
+    click    //*[span='Tb Verify Code']
+    input    //*[@class='s-QuickSearchInput']    13131313121
+
+Fund password
+    input    //input[@class='inputRow__input-3DI59']    ${fp}
+    click    //*[contains(text(),'下一步')]
+    input    //input[@class='inputRow__input-3DI59']    ${the other PWD}
+    input    //*[@id="layout-popup-root"]/div/div/div/div[4]/div/div[1]/div[2]/input    ${the other PWD}
+    click    //button[contains(text(),'完成')]
+    wait contains    密码修改完成
+    click    //*[contains(text(),'关闭')]
+
+修正密碼p開頭
+    click    //div[@class='main__closeBtn-2Vl7Q']
+    click    //*[contains(text(),'忘記')]
+    run keyword    密保設置環節
+
+驗證碼發送成功
+    wait contains    验证码发送成功
+    click    //*[contains(text(),'确认')]
+
+sportserene
+    open browser    http://192.168.4.104:8877/Account/Login?returnUrl=%2FMain%2FTbTicketMaster    chrome
+    input    //input[@class='editor flexify s-StringEditor required']    welly
+    input    //input[@class='editor flexify s-PasswordEditor required']    ppppppP8
+    click    //button[@type='submit']
+    click    //span[contains(text(),'Member')]
+    click    //*[span='Tb Account']
+    input    //input[@class='s-QuickSearchInput']    ${user}
+    click    //*[@data-item-id='10260']
+    click    //*[span='驗證碼查詢']
+    double click    //div[5][contains(@class,'ui-state-default slick-header-column slick-header-sortable ui-sortable-handle') and contains(@id,'CreateTime')]
+    sleep    2
+    Wait Until Element Is Visible    //div[@style='width: 1085px; height: 2700px;']//div[1][@style='top:0px' and contains(@class,'ui-widget-content slick-row even')] //div[3][contains(@class,'slick-cell l2 r2')]
+
+忘記密碼
+    click    //*[contains(text(),'忘记')]
+    click    //*[contains(text(),'联系我们')]
+    switch window    NEW
+    click    //*[@id='top_close']
+    handle alert
+    switch window    MAIN
+    input    //input[@class='inputRow__input-3DI59']    wade01
+    click    //*[contains(text(),'下一步')]
+
+綁定手機環節
+    click    //*[contains(text(),'绑定手机')]
+    click    //*[contains(text(),'获取验证码')]
+    ${Done}    ${value}    Run Keyword And Ignore Error    驗證碼發送成功
+    Run Keyword If    '${Done}'=='PASS'    run keyword    sportserene
+    ${code}    get text    //div[@style='width: 1085px; height: 2700px;']//div[1][@style='top:0px' and contains(@class,'ui-widget-content slick-row even')] //div[3][contains(@class,'slick-cell l2 r2')]
+    switch browser    1
+    input    //input[@type='tel']    ${code}
+    click    //*[contains(text(),'下一步')]
+    input    //input[@class='inputRow__input-3DI59']    ${thirdPWD}
+    input    //*[@id="layout-popup-root"]/div/div/div/div[4]/div/div[1]/div[2]/input    ${thirdPWD}
+
+密保設置環節
+    click    //*[contains(text(),'密保问题')]
+    input    //input[@class='inputRow__input-3DI59']    ${mothers name}
+    click    //*[contains(text(),'下一步')]
+    input    //input[@class='inputRow__input-3DI59']    ${PWD}
+    input    //*[@id="layout-popup-root"]/div/div/div/div[4]/div/div[1]/div[2]/input    ${PWD}
+    click    //button[contains(text(),'完成')]
+    wait contains    密码修改完成
+    click    //*[contains(text(),'关闭')]
+
+資金密碼環節
+    ${done}    ${value}    Run Keyword And Ignore Error    Fund password
+    Run Keyword If    '${done}'=='FAIL'    run keyword    修正密碼p開頭
+
+Reset the password
+    打開瀏覽器並到登入頁面
+    忘記密碼
+    密保設置環節

@@ -1,0 +1,22 @@
+*** Keywords ***
+wait element
+    [Arguments]    ${element locator}
+    wait until element is visible    ${element locator}    10s
+    wait until page contains element    ${element locator}    10s
+
+click
+    [Arguments]    ${element locator}
+    wait element    ${element locator}
+    click element    ${element locator}
+
+input
+    [Arguments]    ${element locator}    ${input text}
+    wait element    ${element locator}
+    input text    ${element locator}    ${input text}
+
+開啟APP
+    Open Application    ${REMOTE_URL}    deviceName=${deviceName}    appPackage=${appPackage}    platformName=${platformName}    appActivity=${appActivity}    noReset=${noReset}
+
+點及稍後再說
+    ${done}    ${value}    run keyword and ignore error    點擊稍後再說
+    run keyword if    '${done}'=='FAIL'    click text    确认

@@ -1,0 +1,40 @@
+*** Keywords ***
+充值前金額
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+點擊支付寶
+    switch window    new
+    click    //*[contains(text(),'支付宝转账')]
+
+轉銀行卡並點擊100元
+    click    //span[contains(text(),'转银行卡')]
+    click    //li[contains(text(),'100')]
+
+點擊立即充值
+    click    //*[contains(text(),'立即充值')]
+    sleep    2
+    switch window    new
+
+一鍵支付並點擊100元
+    click    //li[2][contains(@class,'theWay__li-u-z0c ')]
+    click    //li[contains(text(),'100')]
+
+驗證支付成功訊息
+    wait contains    支付成功!
+    switch window    MAIN
+
+驗證成功跳出充值介面
+    wait contains    充值信息及附言仅限本次充值，切勿重复使用。
+
+點擊刷新並查看餘額
+    click    //*[contains(@class,'refresh')]
+    sleep    1
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+選擇支付寶並充值100元
+    充值前金額
+    點擊支付寶
+    一鍵支付並點擊100元
+    點擊立即充值
+    驗證支付成功訊息
+    充值.點擊刷新並查看餘額

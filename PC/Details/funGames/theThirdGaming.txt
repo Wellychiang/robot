@@ -1,0 +1,7 @@
+*** Keywords ***
+點擊快捷100元後轉帳
+    click    //*[contains(text(),'+100')]
+    click    //button[text()='转账']
+
+因為不再白名單所以轉帳失敗
+    wait contains    转账失败

@@ -1,0 +1,54 @@
+*** variable ***
+${HOST}           http://192.168.3.64:9090/
+${BROWSER}        chrome
+${USER}           wade01
+${PWD}            pppppppp
+${The other PWD}    oooooooo
+${thirdPWD}       qqqqqqqq
+${WAIT TIMES}     20s
+${RETRY TIMES}    3x
+${Fp}             aaaassss
+${The other Fp}    aaasssss
+${Mothers name}    111
+
+*** Keywords ***
+Double click
+    [Arguments]    ${element locator}
+    click    ${element locator}
+    click    ${element locator}
+
+Wait element
+    [Arguments]    ${element locator}
+    wait until page contains element    ${element locator}    ${wait times}
+    wait until element is enabled    ${element locator}    ${wait times}
+    wait until element is visible    ${element locator}    ${wait times}
+
+Click
+    [Arguments]    ${element locator}
+    Wait element    ${element locator}
+    Focus    ${element locator}
+    Wait Until Keyword Succeeds    ${retry times}    5s    click element    ${element locator}
+
+Input
+    [Arguments]    ${element locator}    ${input text}
+    Wait element    ${element locator}
+    Focus    ${element locator}
+    wait until keyword succeeds    ${retry times}    5s    input text    ${element locator}    ${input text}
+
+Focus
+    [Arguments]    ${element locator}
+    Set Focus To Element    ${element locator}
+
+wait contains
+    [Arguments]    ${wait text}
+    sleep    1
+    wait until page contains    ${wait text}    ${wait times}
+    sleep    1
+    Capture Page Screenshot
+
+Close Browsers
+    Run Keyword If Test Failed    Reset the password
+    close all browsers
+
+double click1
+    double click    //*[contains(@id,'CreateTime') and contains(@title,'Create Time')]

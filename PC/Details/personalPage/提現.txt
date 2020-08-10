@@ -1,0 +1,33 @@
+*** Keywords ***
+選擇4138銀行卡
+    switch window    new
+    click    //*[contains(text(),'4138')]
+
+提現前金額
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+輸入100元及資金密碼
+    input    //input[@type='tel']    100
+    input    //input[@type='password']    ${Fp}
+
+點擊馬上提現
+    click    //*[contains(text(),'马上提现')]
+
+驗證成功提現100元
+    wait contains    提现申请成功
+    wait contains    本次提現:¥100
+    click    //*[@class='container__btn-a_2gZ']
+    ${text}    get text    //*[contains(@class,'balance')]
+
+點擊刷新並查看餘額
+    click    //*[@class='refresh-2GgId']
+    sleep    1
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+選擇銀行卡並成功提現
+    選擇4138銀行卡
+    提現前金額
+    輸入100元及資金密碼
+    點擊馬上提現
+    驗證成功提現100元
+    提現.點擊刷新並查看餘額

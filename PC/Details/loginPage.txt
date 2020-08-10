@@ -1,0 +1,45 @@
+*** Keywords ***
+打開瀏覽器並到登入頁面
+    wait until keyword succeeds    ${retry times}    5s    open browser    https://ty-king.anbwx.com/    chrome
+    maximize browser window
+
+以有效憑證登入
+    input    //input[@type='text']    ${USER}
+    input    //input[@type='password']    ${PWD}
+    click    //button[text()='登录']
+    sleep    1
+
+登入成功
+    ${done}    ${value}    Run Keyword And Ignore Error    應該出現提現
+    run keyword if    '${done}'=='FAIL'    run keyword    reset the password
+
+應該出現提現
+    wait contains    提现
+
+以無效憑證登入
+    click    //button[text()='登录']
+    wait contains    帐号或密码错误
+    click    //*[contains(text(),'确认')]
+    input    //input[@type='text']    1234567890556
+    input    //input[@type='password']    000000000
+    click    //button[text()='登录']
+    wait contains    帐号或密码错误
+    click    //*[contains(text(),'确认')]
+    input    //input[@type='text']    q1234
+    input    //input[@type='password']    q0000
+    click    //button[text()='登录']
+    wait contains    帐号或密码错误
+    click    //*[contains(text(),'确认')]
+    input    //input[@type='text']    ${empty}
+    input    //input[@type='password']    ${empty}
+    click    //button[text()='登录']
+    wait contains    帐号或密码错误
+    click    //*[contains(text(),'确认')]
+
+登出
+    click    //*[contains(text(),'登出')]
+    click    //button[text()='确认']
+    wait contains    忘记
+
+登出成功
+    wait contains    忘记

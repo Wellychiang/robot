@@ -1,0 +1,14 @@
+*** Keywords ***
+點擊稍後再說
+    wait until element is visible    //*[contains(@text,"稍后再说")]
+    click text    稍后再说
+
+點擊忘記密碼
+    click    id=tw.com.ark.football_dev_test:id/fragment_login_forgot_pw_ll
+
+登入
+    click text    登录
+
+輸入帳號
+    [Arguments]    ${input text}
+    input    //*[@resource-id='tw.com.ark.football_dev_test:id/fragment_login_account_edit']    ${input text}

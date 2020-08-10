@@ -1,0 +1,138 @@
+*** Keywords ***
+點擊提現
+    click    //*[text()='提现']
+
+點擊充值
+    click    //*[text()='充值']
+
+點開體育
+    mouse over    //*[contains(text(),'棋牌')]
+    click    //img[2][@src='/_next/static/images/btn-04-50c1e4bd1635cef93b8690fc86da3b90.png']
+
+點開龍城棋牌
+    mouse over    //*[contains(text(),'棋牌')]
+    click    //*[contains(@class,'col2-1h4og')]
+
+點擊足球
+    click    //div[contains(text(),'足球')]
+
+選擇禮拜五的任一賠率
+    click    //span[contains(text(),'星期五')]
+    click    //*[@id="__next"]/div/div[2]/div[2]/div[1]/div[1]/div/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/p
+
+選擇禮拜二的任一賠率
+    click    //span[contains(text(),'星期二')]
+    click    //*[@id="__next"]/div/div[2]/div[2]/div[1]/div[1]/div/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/p
+
+當下賠率
+    wait until element is Visible    //*[@id="__next"]/div/div[2]/div[2]/div[1]/div[1]/div/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/p    ${wait times}
+    ${odds}    get text    //*[@id="__next"]/div/div[2]/div[2]/div[1]/div[1]/div/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/p
+
+快捷下注20元並投注
+    click    //*[@placeholder='投注额']
+    click    //div[@class='chip1-2ZhPw']    #20元
+    click    //*[text()='马上投注']
+
+投注成驗證
+    wait contains    投注成功
+
+聯繫客服
+    click    //*[contains(@class,'contact')]
+    switch window    NEW
+    wait contains    点球客服平台
+    click    //*[@id='top_close']
+    handle alert
+    switch window    MAIN
+
+APP下載
+    click    //*[contains(text(),'APP下载')]
+
+第一排
+    ${vipName}    get text    //div[1][contains(@class,'loginPanel__col')]
+    ${money}    get text    //div[2][contains(@class,'loginPanel__col')]
+    ${Preferential}    get text    //div[3][contains(@class,'loginPanel__col')]
+    ${deposit}    get text    //div[4][contains(@class,'loginPanel__col')]
+    ${withdrawl}    get text    //div[5][contains(@class,'loginPanel__col')]
+    ${mine}    get text    //div[6][contains(@class,'loginPanel__col')]
+    ${ticket}    get text    //div[7][contains(@class,'loginPanel__col')]
+    ${logOut}    get text    //div[8][contains(@class,'loginPanel__col')]//button[1]
+    ${customService}    get text    //div[8][contains(@class,'loginPanel__col')]//button[2]
+    should be equal as strings    ${vipName}    VIP10 : wade01
+    should be equal as strings    ${Preferential}    优惠
+    should be equal as strings    ${deposit}    充值
+    should be equal as strings    ${withdrawl}    提现
+    should be equal as strings    ${mine}    我的
+    should be equal as strings    ${ticket}    订单
+    should be equal as strings    ${logOut}    登出
+
+優惠
+    click    //*[contains(text(),'优惠')]
+    switch window    NEW
+    ${text}    get text    //*[contains(@class,'promotion-3aDJA')]
+    switch window    MAIN
+
+第二排
+    ${brand}    get text    //div[1][contains(@class,'navItem-2_Vzw')]
+    ${sports}    get text    //div[2][contains(@class,'navItem-2_Vzw')]
+    ${AG}    get text    //div[3][contains(@class,'navItem-2_Vzw')]
+    ${AG2}    get text    //div[4][contains(@class,'navItem-2_Vzw')]
+    ${poker}    get text    //div[5][contains(@class,'navItem-2_Vzw')]
+    ${catchFish}    get text    //div[6][contains(@class,'navItem-2_Vzw')]
+    should be equal as strings    ${brand}    品牌
+    should be equal as strings    ${sports}    体育
+    should be equal as strings    ${AG}    真人
+    should be equal as strings    ${AG2}    电子
+    should be equal as strings    ${poker}    棋牌
+    should be equal as strings    ${catchFish}    捕鱼
+
+點球體育
+    click    //div[contains(text(),'走地赛事')]
+    Wait Until Page Does Not Contain    走地盘
+    click    //img[contains(@class,'logo-j')]
+    wait contains    24小时內
+
+品牌
+    mouse over    //*[contains(text(),'品牌')]
+    click    //*[contains(@class,'brand1')]
+    sleep    1
+    switch window    NEW
+    wait contains    费内巴切俱乐部-官方合作伙伴
+    switch window    MAIN
+    mouse over    //*[contains(text(),'品牌')]
+    click    //*[contains(@class,'brand2')]
+    sleep    1
+    switch window    NEW
+    wait contains    点球｜懂你的球‧唯有点球
+
+消費之前的餘額
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+消費之後的餘額
+    ${balance}    get text    //*[contains(@class,'balance')]
+
+投注成功驗證
+    ${ver}    ${value}    run keyword and ignore error    投注成驗證
+    run keyword if    '${ver}'=='FAIL'    wait contains    注单确认中
+    click    //*[contains(text(),'关闭')]
+
+禮拜五下注10元
+    消費之前的餘額
+    點擊足球
+    當下賠率
+    選擇禮拜五的任一賠率
+    快捷下注20元並投注
+    投注成功驗證
+    消費之後的餘額
+
+禮拜二下注10元
+    消費之前的餘額
+    點擊足球
+    當下賠率
+    選擇禮拜二的任一賠率
+    快捷下注20元並投注
+    投注成功驗證
+    消費之後的餘額
+
+禮拜二或五進行下注
+    ${done}    ${value}    run keyword and ignore error    禮拜二下注10元
+    run keyword if    '${done}'=='FAIL'    run keywords    禮拜五下注10元
